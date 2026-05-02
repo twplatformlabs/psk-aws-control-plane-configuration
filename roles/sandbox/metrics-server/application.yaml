@@ -1,0 +1,35 @@
+  # roles/production/metrics-server/application.yaml
+  apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    name: metrics-server
+    namespace: kube-system          # should be the argo ns i think
+    annotations:
+      argocd.argoproj.io/sync-wave: "0"
+  spec:
+    project: core-project
+
+    sources:
+      - repoURL: https://kubernetes-sigs.github.io/metrics-server/
+        chart: metrics-server
+        targetRevision: 3.12.0
+        helm:
+          valueFiles:
+            - $config/roles/sandbox/metrics-server/default-values.yaml
+            - $config/roles/sandbox/metrics-server/sandbox-values.yaml
+      - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
+        targetRevision: HEAD
+        ref: config
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: kube-system
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      retry:
+        limit: 5
+        backoff:
+          duration: 30s
+          factor: 2
+          maxDuration: 5m
