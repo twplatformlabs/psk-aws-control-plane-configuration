@@ -3,7 +3,7 @@
   kind: Application
   metadata:
     name: metrics-server
-    namespace: kube-system          # should be the argo ns i think
+    namespace: psk-system
     annotations:
       argocd.argoproj.io/sync-wave: "0"
   spec:
