@@ -1,6 +1,8 @@
 # psk-aws-control-plane-configuration
 Distributed configuration management based on cluster role.
 
+NOTE: the contents of the `roes` folder is managed by the individual svv or ext application lifecycle pipelines. DO NOT directly edit.
+
 
 
 todo
