@@ -17,8 +17,8 @@ spec:
       targetRevision: 3.12.1
       helm:
         valueFiles:
-          - /roles/sandbox/metrics-server/default-values.yaml
-          - /roles/sandbox/metrics-server/sandbox-values.yaml
+          - $config/roles/sandbox/metrics-server/default-values.yaml
+          - $config/roles/sandbox/metrics-server/sandbox-values.yaml
     - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
       targetRevision: HEAD
       ref: config
