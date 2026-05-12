@@ -12,8 +12,8 @@ spec:
   project: psk-aws-control-plane-configuration
 
   sources:
-    - repoURL: https://kubernetes-sigs.github.io/external-secrets-operator/
-      chart: external-secrets-operator
+    - repoURL: https://charts.external-secrets.io/external-secrets/
+      chart: external-secrets
       targetRevision: 2.2.0
       helm:
         valueFiles:
