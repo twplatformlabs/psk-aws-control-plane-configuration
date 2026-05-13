@@ -17,18 +17,25 @@ order
 wave 0 - critical first
 metrics-server (svc)
 external-secrets-operator (ext)
+crossplane (ext) with just iam and eks to support pod-identities to start, provider config must come afterwards
 
-wave 1 - dependent
+
+wave 1 - critical first, second wave
+crossplane provider config
+
+wave 2 - dependent
 cert-manager (ext)
 
-wave 2 - non-dependent services
+wave 3 - non-dependent services
 kube-state-metrics
 otel-collector 
 trivy-operator
 keda
 argo-events
 
-wave 3 - extensions
+wave 4 - extensions
 istio
+
+wave 5 - extensions
 external-dns
-crossplane
+
