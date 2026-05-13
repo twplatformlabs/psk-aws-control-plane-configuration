@@ -47,7 +47,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane-providerconfig
+  name: crossplane-configuration
   namespace: psk-system
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -57,7 +57,7 @@ spec:
   source:
     repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
     targetRevision: HEAD
-    path: roles/sandbox/crossplane/providerconfig
+    path: roles/sandbox/crossplane/resources
   destination:
     server: https://kubernetes.default.svc
     namespace: crossplane-system
