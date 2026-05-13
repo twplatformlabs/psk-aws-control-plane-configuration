@@ -57,7 +57,7 @@ spec:
   source:
     repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
     targetRevision: HEAD
-    path: roles/sandbox/crossplane/providerconfig.yaml
+    path: roles/sandbox/crossplane/providerconfig
   destination:
     server: https://kubernetes.default.svc
     namespace: crossplane-system
