@@ -125,6 +125,7 @@ kubeRBACProxy:
   containerSecurityContext:
     readOnlyRootFilesystem: true
     allowPrivilegeEscalation: false
+    runAsRoot: false
     runAsGroup: 65534
     runAsUser: 65534
     capabilities:
