@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: loki
+  name: obs-loki
   namespace: psk-system
   finalizers:
     - resources-finalizer.argocd.argoproj.io
