@@ -1,0 +1,39 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: psk-system
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: psk-aws-control-plane-configuration
+
+  sources:
+    - repoURL: https://grafana-community.github.io/helm-charts
+      chart: loki
+      targetRevision: 17.1.7
+      helm:
+        valueFiles:
+          - $config/roles/sandbox/obs-loki/loki-default-values.yaml
+          - $config/roles/sandbox/obs-loki/loki-sandbox-values.yaml
+    - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
+      targetRevision: HEAD
+      ref: config
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observe
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 5m
