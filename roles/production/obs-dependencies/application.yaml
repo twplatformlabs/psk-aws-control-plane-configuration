@@ -1,0 +1,43 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: obs-dependencies
+  namespace: psk-system
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: psk-aws-control-plane-configuration
+
+  sources:
+    - repoURL: https://github.com/twplatformlabs/psk-platform-svc-simple-observability
+      path: chart/obs-dependencies
+      targetRevision: HEAD
+      helm:
+        valueFiles:
+          - $config/roles/production/obs-dependencies/deps-default-values.yaml
+    - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
+      targetRevision: HEAD
+      ref: config
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observe
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
+    managedNamespaceMetadata:
+      labels:
+        app.kubernetes.io/managed-by: psk-platform-svc-simple-observability
+        platform-vault: "true"
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 5m
