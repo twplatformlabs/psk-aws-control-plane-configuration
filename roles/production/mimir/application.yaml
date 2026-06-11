@@ -1,0 +1,39 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mimir
+  namespace: psk-system
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: psk-aws-control-plane-configuration
+
+  sources:
+    - repoURL: https://github.com/twplatformlabs/psk-platform-svc-simple-observability
+      path: chart/mimir
+      targetRevision: HEAD
+      helm:
+        valueFiles:
+          - $config/roles/production/mimir/default-values.yaml
+          - $config/roles/production/mimir/production-values.yaml
+    - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
+      targetRevision: HEAD
+      ref: config
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observe
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 5m
