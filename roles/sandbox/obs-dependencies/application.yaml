@@ -18,6 +18,7 @@ spec:
       helm:
         valueFiles:
           - $config/roles/sandbox/obs-dependencies/deps-default-values.yaml
+          - $config/roles/sandbox/obs-dependencies/deps-sandbox-values.yaml
     - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
       targetRevision: HEAD
       ref: config
