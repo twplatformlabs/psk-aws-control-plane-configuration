@@ -18,6 +18,7 @@ spec:
       helm:
         valueFiles:
           - $config/roles/sandbox/crossplane-aws/aws-default-values.yaml
+          - $config/roles/sandbox/crossplane-aws/aws-sandbox-values.yaml
     - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
       targetRevision: HEAD
       ref: config
