@@ -14,7 +14,7 @@ spec:
   sources:
     - repoURL: https://github.com/twplatformlabs/psk-platform-ext-crossplane
       path: chart/crossplane-aws
-      targetRevision: 2.3.1.0021
+      targetRevision: 2.3.1.0023
       helm:
         valueFiles:
           - $config/roles/production/crossplane-aws/aws-default-values.yaml
