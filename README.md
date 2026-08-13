@@ -6,26 +6,31 @@
 	</p>
 </div>
 
-The App-of-Apps repo for the ArgoCD Core role-based configuration of psk control plane clusters.
+App-of-Apps repo for the ArgoCD Core role-based configuration of psk control plane clusters.
 
-Wave 0: Early dependency phase (critical dependencies for configuration management)  
-Wave 1: Primary release phase (app with only w0 depedencies and deps for wave 2 apps)  
-Wave 2: Secondary release phase (apps with w1 dependencies))  
+The ArgoCD Application resources adheres to the defined syncWasve deployment dependencies.  
 
-| wave | svc | ext | application |
-|:----:|:---:|:---:|-------------|
-| 0 | | :heavy_check_mark: | external-secrets-operator | x
-| 0 | | :heavy_check_mark: | crossplane | x
-| 1 | | :heavy_check_mark: | crossplane-aws, providers and platform compositions | x
-| 1 | :heavy_check_mark: | | metrics-server | x
-| 1 | :heavy_check_mark: | | kube-state-metrics | x
+```bash
+Wave 0: Initial dependency phase: must be deployed before anything else, downstream dependencies 
+│
+├── Wave 1: Services or Extensions with wave 0 or no dependencies
+│   └── Wave 2: Services or Extensions with wave 0,1 dependencies
+│   		└── Wave 3: Services or Extensions with wave 0,1,2 dependencies
+│   				└── Wave 4: Services or Extensions with wave 0,1,2,3 dependencies
+```
+Having subsequent waves allows for things like deploying crossplane resource request prior to the deployment where there are infrastructure dependencies.  
 
-
-
-
-| 2 | :heavy_check_mark: | | observability dependencies |
-| 3 | :heavy_check_mark: | | observability stores, loki, tempo, etc  |
-| 4 | :heavy_check_mark: | | observability |
+| wave | svc | ext | application | SDLC pipeline |
+|:----:|:---:|:---:|-------------|---------------|
+| 0 | | :heavy_check_mark: | external-secrets-operator | [link](https://github.com/twplatformlabs/psk-platform-ext-external-secrets-operator) |
+| 0 | | :heavy_check_mark: | crossplane | [link](https://github.com/twplatformlabs/psk-platform-ext-crossplane) |
+| 1 | | :heavy_check_mark: | crossplane-aws (providers and platform compositions)
+| 1 | :heavy_check_mark: | | metrics-server | [link](https://github.com/twplatformlabs/psk-platform-svc-metrics-server) |
+| 1 | :heavy_check_mark: | | kube-state-metrics | [link](https://github.com/twplatformlabs/psk-platform-svc-kube-state-metrics) |
+| 1 | :heavy_check_mark: | | node-exporter | [link](https://github.com/twplatformlabs/psk-platform-svc-knode-exporter) |
+| 2 | :heavy_check_mark: | | observability dependencies (pvc, S3) | [link](https://github.com/twplatformlabs/psk-platform-svc-simple-observability) |
+| 3 | :heavy_check_mark: | | observability stores (loki, mimir, tempo) | [link](https://github.com/twplatformlabs/psk-platform-svc-simple-observability) |
+| 4 | :heavy_check_mark: | | observability (collectors, grafana) | [link](https://github.com/twplatformlabs/psk-platform-svc-simple-observability) |
 
 
 
@@ -33,8 +38,10 @@ Wave 2: Secondary release phase (apps with w1 dependencies))
 (_pending_)
 | wave | svc | ext | application |
 |:----:|:---:|:---:|-------------|
-| 1 | :heavy_check_mark: | | otelCollector |
 | 2 | | :heavy_check_mark: | istio |
+
+| 3 | | :heavy_check_mark: | default-ingress |
+
 | 2 | | :heavy_check_mark: | cert-manager |
 | 2 | | :heavy_check_mark: | external-dns |
 
