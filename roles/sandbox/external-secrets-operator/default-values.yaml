@@ -275,7 +275,7 @@ resources:
     memory: 32Mi
   limits:
     cpu: 200m
-    memory: 250Mi
+    memory: 512Mi
 
 serviceMonitor:
   # -- Specifies whether to create a ServiceMonitor resource for collecting Prometheus metrics
