@@ -1,0 +1,41 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-revision-staged
+  namespace: psk-system
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  project: psk-aws-control-plane-configuration
+
+  sources:
+    - repoURL: https://github.com/twplatformlabs/psk-platform-ext-istio
+      path: charts/istio-revision-staged
+      targetRevision: HEAD
+      helm:
+        parameters:
+          - name: version
+            value: 1.29.3
+          - name: revision
+            value: 1-29-3
+    - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
+      targetRevision: HEAD
+      ref: config
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 5m
