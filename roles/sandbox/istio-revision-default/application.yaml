@@ -19,6 +19,8 @@ spec:
         parameters:
           - name: revision
             value: 1-29-3
+          - name: version
+            value: 1.29.3
     - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
       targetRevision: HEAD
       ref: config
