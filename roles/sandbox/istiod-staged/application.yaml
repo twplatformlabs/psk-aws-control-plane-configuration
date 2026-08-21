@@ -40,3 +40,9 @@ spec:
         duration: 30s
         factor: 2
         maxDuration: 5m
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: istio-validator-1-29-3-istio-system
+      managedFieldsManagers:
+        - pilot-discovery
