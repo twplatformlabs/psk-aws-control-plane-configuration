@@ -20,8 +20,8 @@ spec:
           - name: revision
             value: 1-29-3
         valueFiles:
-          - $config/roles/sandbox/istiod/istiod-default-values.yaml
-          - $config/roles/sandbox/istiod/istiod-sandbox-values.yaml
+          - $config/roles/sandbox/istiod-staged/istiod-default-values.yaml
+          - $config/roles/sandbox/istiod-staged/istiod-sandbox-values.yaml
     - repoURL: https://github.com/twplatformlabs/psk-aws-control-plane-configuration
       targetRevision: HEAD
       ref: config
