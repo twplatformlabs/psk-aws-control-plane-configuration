@@ -18,7 +18,7 @@ spec:
       helm:
         parameters:
           - name: defaultRevision
-            value: default
+            value: 1-29-3
           - name: validationFailurePolicy
             value: Fail
           - name: pilot.cni.enabled
